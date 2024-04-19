@@ -1,16 +1,16 @@
-const conn = require("../db/db");
+const db = require("../db/db");
 const {DataTypes} = require('sequelize');
 
 const Jogo = db.define('Jogo', {
-    Titulo: {
+    titulo: {
         type: DataTypes.STRING,
         required:false
     },
-    Descricao: {
+    descricao: {
         type: DataTypes.STRING,
         required:false
     },
-    PrecoBase: {
+    precoBase: {
         type: DataTypes.DOUBLE,
         required:false
     },
