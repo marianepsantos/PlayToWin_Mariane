@@ -12,6 +12,13 @@
         <td>{{this.id}}</td>
         <td>{{this.nickname}}</td>
         <td>{{this.name}}</td>
+
+        <td>
+            <a href="/usuarios/{{this.id}}/update">Atualizar</a>
+            <form action="/usuarios/{{this.id}}/ delete" method="post">
+            <input type = "submit" value="Excluir"/>
+            </form>
+        </td>
     </tr>
     {{/each}}
     </table>

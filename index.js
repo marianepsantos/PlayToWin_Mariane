@@ -35,6 +35,8 @@ res.render("usuarios");
 
 });
 
+
+
 app.get("/usuarios/novo", (req, res) => {
    res.render("formUsuario");
 });
@@ -80,6 +82,36 @@ app.post("/jogos/novo", async (req, res) => {
         console.error("Erro ao cadastrar jogo:", error);
         res.status(500).send("Erro ao cadastrar jogo");
     }
+});
+
+app.post("/usuarios/:id/update", async (req,res) => {
+    const id = parseInt (req.params.id);
+
+    const dadosUsuario = {
+        niclname: req.bory.nickname,
+        nome: req.bory.nome,
+    };
+
+    const retorno = await Usuario.update(dadosUsuario, {where: { id: id}, });
+
+    if (retono >0 ) {
+        res.redirect("/usuarios");
+       } else {
+        res.redirect("Erro ao atualizar usuário");
+       }
+    });
+
+
+app.post("/usuarios/:id/delete", async (req, res)=> {
+    const id = parseInt(req.params.id);
+
+   await Usuario.destroy({ where: { id: id }});
+
+   if (retono >0 ) {
+    res.redirect("/usuarios");
+   } else {
+    res.redirect("Erro ao excluir usuário");
+   }
 });
 
 const PORT = process.env.PORT || 8000;
