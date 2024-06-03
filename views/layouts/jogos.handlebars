@@ -1,0 +1,24 @@
+<h1>jogos Cadastrados</h1>
+
+<table border="1">
+    <tr>
+        <!-- table head -->
+        <th>Título</th>
+        <th>Descrição</th>
+        <th>Preço Base</th>
+    </tr>
+    {{#each jogos}}
+    <tr>
+        <td>{{this.titulo}}</td>
+        <td>{{this.descricao}}</td>
+        <td>{{this.precoBase}}</td>
+
+        <td>
+            <a href="/jogos/{{this.titulo}}/update">Atualizar</a>
+            <form action="/jogos/{{this.titulo}}/ delete" method="post">
+            <input type = "submit" value="Excluir"/>
+            </form>
+        </td>
+    </tr>
+    {{/each}}
+    </table>

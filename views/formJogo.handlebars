@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Jogo</title>
-</head>
-<body>
-    <form action="/jogos/novo" method="post">
+{{#if jogos}}
+  <h1>Atualiizar Jogos</h1>
+<form action="/jogos/{{isiario.id}}/update" method="post">
+{{else}}
+<h1>Cadastrar Jogos</h1>
+<form action+"/Jogo/novo" method="post">
+{{/if}}
         <div>
             <label for="titulo">Título:</label>
             <input type="text" id="titulo" name="titulo"/>
@@ -20,6 +18,13 @@
             <input type="number" id="precoBase" name="precoBase" step="0.01"/>
         </div>
         <input type="submit" value="Cadastrar" />
-    </form>
-</body>
-</html>
+{{#if jogos}}
+   <input type="submit" value="Salvar"/>
+   {{else}}
+   <input type="submit" value="Cadastrar"/>
+   {{/if}}
+</form>
+    
+
+
+

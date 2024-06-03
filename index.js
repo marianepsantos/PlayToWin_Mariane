@@ -8,6 +8,7 @@ const express = require("express")
 
 const exphbs = require("express-handlebars");
 
+const { where } = require("sequelize");
 // Instanciação do servidor//
 const app = express();
 
@@ -29,10 +30,18 @@ app.get("/", (req, res) =>{
 });
 
 app.get("/usuarios", async (req, res) =>{
-const usuarios = await Usuario.findALL ({ raw: true});
+const usuarios = await Usuario.findAll ({ raw: true});
 
 res.render("usuarios");
 
+});
+
+
+app.get("/jogos", async (req, res) =>{
+    const jogos = await Jogo.findAll ({ raw: true});
+    
+    res.render("jogos");
+    
 });
 
 
