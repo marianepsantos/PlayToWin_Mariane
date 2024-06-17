@@ -3,10 +3,12 @@ const db = require("./db/db");
 
 const Usuario = require("./models/Usuario");
 const Jogo = require("./models/Jogo");
+const Cartao = require("./models/Cartao");
 
 const express = require("express");
 
 const exphbs = require("express-handlebars");
+
 
 const { where } = require("sequelize");
 // Instanciação do servidor//
@@ -121,6 +123,45 @@ app.post("/usuarios/:id/delete", async (req, res)=> {
     res.send("Erro ao excluir usuário");
    }
 });
+
+
+//rotas para cartões
+//ver cartões
+app.get("/usuarios/:id:/cartoes", async (req, res)=>{
+    const id = parseInt(req.params.id);
+    const usuario = await Usuario.findByPk(id, { raw: true});
+
+    const cartoes = await Cartao.findAll({
+        raw: true,
+        where: {UsuarioId: id},
+    })
+
+    res.render("cartoes.handlebars", { usuario, cartoes});
+});
+
+//Formulários de cadastro de cartão
+app.get("/usuarios/:id/novoCartao", async (req, res) => {
+    const id = parseInt(req.params.id);
+    const usuario = await Usuario.findByPk(id, { raw: true});
+
+    res.render("cartoes.handlebars", { usuario });
+});
+
+
+//Cadastro de cartão
+app.post("/usuarios/:id/novoCartao", async (req, res) =>{
+    const dadosCartao = {
+        numero: req.body.numero,
+        nome: req.body.nome,
+        codSeguranca: req.body.codSeguranca,
+        UsuarioId: id,
+    };
+
+   await Cartao.create(dadosCartao)
+
+   res.redirect('/usuarios/${id}/cartoes');
+});
+
 
 const PORT = process.env.PORT || 8000;
 

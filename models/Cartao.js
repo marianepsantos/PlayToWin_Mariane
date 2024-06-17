@@ -1,0 +1,30 @@
+const db = require("../db/db");
+const{ DataTypes } = require("sequelize");
+const Usuario = require("../models/Usuario");
+
+const Cartao = db.define("Cartao", {
+    numero: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+
+    nome: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+
+    codSeguranca: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+},
+{
+    tableName: "Cartoes",
+}
+);
+
+Cartao.belongsTo(Usuario)
+Usuario.hasMany(Cartao);
+
+
+module.exports = Cartao;
