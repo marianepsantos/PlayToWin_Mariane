@@ -4,7 +4,7 @@ const{ DataTypes } = require("sequelize");
 const Usuario = db.define("Usuario", {
     nome: {
         type:DataTypes.STRING,
-        required: false,
+        required: true,
     },
     nickname: {
         type:DataTypes.STRING,

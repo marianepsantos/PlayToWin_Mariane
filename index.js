@@ -4,7 +4,7 @@ const db = require("./db/db");
 const Usuario = require("./models/Usuario");
 const Jogo = require("./models/Jogo");
 
-const express = require("express")
+const express = require("express");
 
 const exphbs = require("express-handlebars");
 
@@ -29,18 +29,17 @@ app.get("/", (req, res) =>{
     res.render("home");
 });
 
-app.get("/usuarios", async (req, res) =>{
+app.get("/usuarios", async (req, res) => {
 const usuarios = await Usuario.findAll ({ raw: true});
-
-res.render("usuarios");
-
+res.render("usuarios", { usuarios });
+ 
 });
 
 
 app.get("/jogos", async (req, res) =>{
     const jogos = await Jogo.findAll ({ raw: true});
     
-    res.render("jogos");
+    res.render("jogos", { jogos });
     
 });
 
@@ -51,8 +50,8 @@ app.get("/usuarios/novo", (req, res) => {
 });
 
 app.post("/usuarios/novo", async (req,res)=>{
-    const nickname = req.bory.nickname;
-    const nome = req.bory.nome;
+    const nickname = req.body.nickname;
+    const nome = req.body.nome;
 
     const dadosUsuario = {
         nickname,
@@ -70,13 +69,13 @@ app.post("/usuarios/novo", async (req,res)=>{
 
 
 app.get("/jogos/novo", (req, res) => {
-    res.sendFile(`${__dirname}/views/formJogo.html`);
+   res.render("formJogo");
 });
 
 app.post("/jogos/novo", async (req, res) => {
-    const titulo = req.bory.titulo;
-    const descricao = req.bory.descricao;
-    const precoBase = req.bory.precoBase;
+    const titulo = req.body.titulo;
+    const descricao = req.body.descricao;
+    const precoBase = req.body.precoBase;
         
     const dadosJogo = {
         titulo,
@@ -97,13 +96,13 @@ app.post("/usuarios/:id/update", async (req,res) => {
     const id = parseInt (req.params.id);
 
     const dadosUsuario = {
-        niclname: req.bory.nickname,
-        nome: req.bory.nome,
+        nickname: req.body.nickname,
+        nome: req.body.nome,
     };
 
     const retorno = await Usuario.update(dadosUsuario, {where: { id: id}, });
 
-    if (retono >0 ) {
+    if (retono > 0 ) {
         res.redirect("/usuarios");
        } else {
         res.redirect("Erro ao atualizar usuário");
@@ -119,7 +118,7 @@ app.post("/usuarios/:id/delete", async (req, res)=> {
    if (retono >0 ) {
     res.redirect("/usuarios");
    } else {
-    res.redirect("Erro ao excluir usuário");
+    res.send("Erro ao excluir usuário");
    }
 });
 

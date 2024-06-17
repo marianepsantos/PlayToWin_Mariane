@@ -4,15 +4,15 @@ const {DataTypes} = require('sequelize');
 const Jogo = db.define('Jogo', {
     titulo: {
         type: DataTypes.STRING,
-        required:false
+        required:true
     },
     descricao: {
         type: DataTypes.STRING,
-        required:false
+        required:true
     },
     precoBase: {
         type: DataTypes.DOUBLE,
-        required:false
+        required:true
     },
 });
 
