@@ -113,14 +113,51 @@ app.post("/usuarios/:id/update", async (req,res) => {
 app.post("/usuarios/:id/delete", async (req, res)=> {
     const id = parseInt(req.params.id);
 
-   await Usuario.destroy({ where: { id: id }});
+   const retorno = await Usuario.destroy({ where: { id: id }, });
 
-   if (retono >0 ) {
+   if (retorno >0 ) {
     res.redirect("/usuarios");
    } else {
     res.send("Erro ao excluir usuário");
    }
 });
+
+app.get("/usuarios/:id/cartoes", async (req, res) =>{
+    const id = parseInt(req.params.id);
+    const usuario = await Usuario.findByPk(id, { raw: true });
+    
+    const cartoes = await Cartao.findAll({
+        raw: true,
+        where: { UsuarioId: id},
+    })
+
+    res.render("cartoes.handlebars", { usuario, cartoes });
+});
+
+//Formulário de cadastro de cartões
+app.get("/usuarios/:id/novoCartao", async (req, res) =>{
+    const id = parseInt(req.params.id);
+    const usuario = await Usuario.findByPk(id, { raw: true });
+
+    res.render("formCartao", { usuario });
+});
+
+//Cadastro de cartão
+app.post("/usuarios/:id/novoCartao", async (req, res) =>{
+    const id = parseInt(req.params.id);
+    
+    const dadosCartao = {
+        numero: req.body.numero,
+        nome: req.body.nome,
+        codSeguranca: req.body.codSeguranca,
+        UsuarioId: id,
+    };
+
+    await Cartao.create(dadosCartao);
+
+  res.redirect(`/usuarios/${id}/cartoes`);
+});
+
 
 const PORT = process.env.PORT || 8000;
 
