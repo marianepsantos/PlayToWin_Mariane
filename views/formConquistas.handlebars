@@ -1,25 +1,20 @@
-<h1> Cadastrar Conquistas</h1>
-<form action="/jogo/{{jogo.id}}/novaConquista" method="post">
+{{#unless conquistas}}
+    <h1>Adicionar Nova Conquista ao Jogo "{{ jogo.titulo }}"</h1>
+    <form action="/jogos/{{jogo.id}}/novaconquista" method="post">
+{{else}}
+    <h1>Editar Conquista</h1>
+    <form action="/jogos/{{jogo.id}}/conquistas/{{conquista.id}}/update" method="post">
+{{/unless}}
 
   <div>
-    <label for="numero">Número</label>
-    <input
-      type="text"
-      maxlength="16"
-      minlength="16"
-      id="numero"
-      name="numero"
-    />
+    <label for="título">Título:</label>
+    <input type="text" id="título" name="titulo" value="{{conquistas.titulo}}" />
   </div>
   <div>
-    <label for="nome">Nome</label>
-    <input type="text" id="nome" name="nome" />
-  </div>
-  <div>
-    <label for="codSeguranca">Código de Segurança</label>
-    <input type="number" id="codSeguranca" name="codSeguranca" />
+    <label for="descrição">Descrição:</label>
+    <input type="text" id="descricao" name="descricao" value="{{conquistas.descricao}}" />
   </div>
 
-  <input type="submit" value="Cadastrar" />
+  <input type="submit" value="{{#if conquistas}}Salvar{{else}}Cadastrar{{/if}}" />
 
 </form>

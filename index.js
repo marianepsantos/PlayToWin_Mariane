@@ -2,7 +2,9 @@ require("dotenv").config();
 const db = require("./db/db");
 
 const Usuario = require("./models/Usuario");
+const Cartao = require("./models/Cartao");
 const Jogo = require("./models/Jogo");
+const Conquista = require("./models/Conquista");
 
 const express = require("express");
 
@@ -67,7 +69,8 @@ app.post("/usuarios/novo", async (req,res)=>{
     }
 });
 
-
+  
+  
 app.get("/jogos/novo", (req, res) => {
    res.render("formJogo");
 });
@@ -92,6 +95,45 @@ app.post("/jogos/novo", async (req, res) => {
     }
 });
 
+
+app.get("/jogos/:id/update", async (req, res) => {
+    const id = parseInt(req.params.id);
+    const jogo = await Jogo.findByPk(id, { raw: true });
+  
+    res.render("formJogo", { jogo });
+});
+
+app.post("/jogos/:id/update", async (req, res) => {
+    const id = parseInt(req.params.id);
+
+    const dadosJogo = {
+        titulo: req.body.titulo,
+        descricao: req.body.descricao,
+        precoBase: req.body.precoBase
+    };
+
+    const retorno = await Jogo.update(dadosJogo, { where: { id: id }, });
+
+    if(retorno > 0){
+        res.redirect("/jogos");
+    } else {
+        res.send("Erro ao atualizar jogo");
+    }
+});
+
+app.post("/jogos/:id/delete", async (req, res) => {
+    const id = parseInt(req.params.id);
+
+    const retorno = await Jogo.destroy({ where: { id: id } });
+
+    if (retorno > 0){
+        res.redirect("/jogos");
+    } else {
+        res.send("Erro ao excluir jogo");
+    }
+});
+
+
 app.post("/usuarios/:id/update", async (req,res) => {
     const id = parseInt (req.params.id);
 
@@ -102,7 +144,7 @@ app.post("/usuarios/:id/update", async (req,res) => {
 
     const retorno = await Usuario.update(dadosUsuario, {where: { id: id}, });
 
-    if (retono > 0 ) {
+    if (retorno > 0 ) {
         res.redirect("/usuarios");
        } else {
         res.redirect("Erro ao atualizar usuário");
@@ -129,7 +171,7 @@ app.get("/usuarios/:id/cartoes", async (req, res) =>{
     const cartoes = await Cartao.findAll({
         raw: true,
         where: { UsuarioId: id},
-    })
+    });
 
     res.render("cartoes.handlebars", { usuario, cartoes });
 });
@@ -156,6 +198,42 @@ app.post("/usuarios/:id/novoCartao", async (req, res) =>{
     await Cartao.create(dadosCartao);
 
   res.redirect(`/usuarios/${id}/cartoes`);
+});
+
+
+app.get("/jogos/:id/conquista", async (req, res) =>{
+    const id = parseInt(req.params.id);
+    const jogo = await Jogo.findByPk(id, { raw: true });
+
+    const conquistas = await Conquistas.findAll({
+        raw: true,
+        where: { JogoId: id },
+    });
+
+    res.render("conquistas.handlebars", { jogo, conquistas });
+});
+
+// Formulário de cadastro de conquistas
+app.get("/jogos/:id/novaconquista", async (req, res) =>{
+    const id = parseInt(req.params.id);
+    const jogo = await Jogo.findByPk(id, { raw: true });
+
+    res.render("formConquista", { jogo });
+});
+
+// Cadastro de conquista
+app.post("/jogos/:id/novaconquista", async (req, res) =>{
+    const id = parseInt(req.params.id);
+
+    const dadosconquista = {
+        titulo: req.body.titulo,
+        descricao: req.body.descricao,
+        JogoId: id,
+    };
+
+    await Conquista.create(dadosConquista);
+
+    res.redirect(`/jogos/${id}/conquistas`);
 });
 
 

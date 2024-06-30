@@ -1,4 +1,4 @@
-const db = require("../db/conn");
+const db = require("../db/db");
 const { DataTypes } = require("sequelize");
 const Jogo = require("../models/Jogo");
 
@@ -17,9 +17,6 @@ const Conquista = db.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-  },
-  {
-    tableName: "Conquistas",
   }
 );
 Conquista.belongsTo(Jogo);
