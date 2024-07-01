@@ -1,6 +1,6 @@
 const db = require("../db/db");
 const { DataTypes } = require("sequelize");
-const Jogo = require("../models/Jogo");
+const Jogo = require("./Jogo");
 
 const Conquista = db.define(
   "Conquistas",

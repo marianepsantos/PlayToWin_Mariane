@@ -4,7 +4,7 @@ const db = require("./db/db");
 const Usuario = require("./models/Usuario");
 const Cartao = require("./models/Cartao");
 const Jogo = require("./models/Jogo");
-const Conquista = require("./models/Conquista");
+const Conquistas = require("./models/Conquista");
 
 const express = require("express");
 
@@ -201,11 +201,11 @@ app.post("/usuarios/:id/novoCartao", async (req, res) =>{
 });
 
 
-app.get("/jogos/:id/conquista", async (req, res) =>{
+app.get("/jogos/:id/conquistas", async (req, res) =>{
     const id = parseInt(req.params.id);
     const jogo = await Jogo.findByPk(id, { raw: true });
 
-    const conquistas = await Conquistas.findAll({
+    const conquistas = await Conquista.findAll({
         raw: true,
         where: { JogoId: id },
     });
@@ -225,7 +225,7 @@ app.get("/jogos/:id/novaconquista", async (req, res) =>{
 app.post("/jogos/:id/novaconquista", async (req, res) =>{
     const id = parseInt(req.params.id);
 
-    const dadosconquista = {
+    const dadosConquista = {
         titulo: req.body.titulo,
         descricao: req.body.descricao,
         JogoId: id,
