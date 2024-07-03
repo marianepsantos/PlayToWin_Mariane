@@ -1,16 +1,12 @@
 require("dotenv").config();
 const db = require("./db/db");
-
 const Usuario = require("./models/Usuario");
 const Cartao = require("./models/Cartao");
 const Jogo = require("./models/Jogo");
-const Conquistas = require("./models/Conquista");
-
 const express = require("express");
-
 const exphbs = require("express-handlebars");
-
 const { where } = require("sequelize");
+const Conquista = require("./models/Conquistas");
 // Instanciação do servidor//
 const app = express();
 
@@ -131,6 +127,14 @@ app.post("/jogos/:id/delete", async (req, res) => {
     } else {
         res.send("Erro ao excluir jogo");
     }
+});
+
+
+app.get("/usuarios/:id/update", async (req, res) => {
+    const id = parseInt(req.params.id);
+    const usuario = await Usuario.findByPk(id, { raw: true });
+  
+    res.render("formUsuario", { usuario });
 });
 
 

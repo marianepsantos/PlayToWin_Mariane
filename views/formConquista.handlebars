@@ -1,10 +1,7 @@
-{{#unless conquistas}}
+
     <h1>Adicionar Nova Conquista ao Jogo "{{ jogo.titulo }}"</h1>
     <form action="/jogos/{{jogo.id}}/novaconquista" method="post">
-{{else}}
-    <h1>Editar Conquista</h1>
-    <form action="/jogos/{{jogo.id}}/conquistas/{{conquista.id}}/update" method=////"post">
-{{/unless}}
+
 
   <div>
     <label for="título">Título:</label>
@@ -15,6 +12,6 @@
     <input type="text" id="descricao" name="descricao" value="{{conquistas.descricao}}" />
   </div>
 
-  <input type="submit" value="{{#if conquistas}}Salvar{{else}}Cadastrar{{/if}}" />
+  <input type="submit" value="Cadastrar" />
 
 </form>

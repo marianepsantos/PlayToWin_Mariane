@@ -1,6 +1,6 @@
-{{#if jogos}}
+{{#if jogo}}
   <h1>Atualiizar Jogos</h1>
-<form action="/jogos/{{isiario.id}}/update" method="post">
+<form action="/jogos/{{jogo.id}}/update" method="post">
 {{else}}
 <h1>Cadastrar Jogos</h1>
 <form action+"/Jogo/novo" method="post">
@@ -17,8 +17,8 @@
             <label for="precoBase">Preço Base:</label>
             <input type="number" id="precoBase" name="precoBase" step="0.01"/>
         </div>
-        <input type="submit" value="Cadastrar" />
-{{#if jogos}}
+        
+{{#if jogo}}
    <input type="submit" value="Salvar"/>
    {{else}}
    <input type="submit" value="Cadastrar"/>
